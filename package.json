@@ -5,19 +5,24 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "echo 'No build step required for static files'",
-    "dev": "netlify dev"
+    "build": "npm audit fix --force && echo 'No build step required for static files'",
+    "dev": "netlify dev",
+    "security-check": "npm audit && npm outdated"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1"
+    "express": "4.18.2",
+    "mongoose": "7.5.0",
+    "cors": "2.8.5",
+    "dotenv": "16.3.1"
   },
   "devDependencies": {
-    "netlify-cli": "^17.0.0"
+    "netlify-cli": "17.0.0"
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "resolutions": {
+    "express": "4.18.2",
+    "mongoose": "7.5.0"
   }
 } 
