@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MongoDB CRUD Operations</title>
+    <title>Delete - MongoDB CRUD</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>MongoDB CRUD Operations</h1>
+        <h1>Delete Record</h1>
         <nav class="nav-menu">
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="create.html">Create</a></li>
                 <li><a href="read.html">Read</a></li>
                 <li><a href="update.html">Update</a></li>
@@ -19,10 +20,16 @@
             </ul>
         </nav>
         <div class="content">
-            <h2>Welcome to MongoDB CRUD Operations</h2>
-            <p>This application demonstrates basic CRUD (Create, Read, Update, Delete) operations using MongoDB.</p>
-            <p>Select an operation from the navigation menu above to get started.</p>
+            <form id="deleteForm">
+                <div class="form-group">
+                    <label for="id">Record ID:</label>
+                    <input type="text" id="id" name="id" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Delete Record</button>
+            </form>
+            <div id="message"></div>
         </div>
     </div>
+    <script src="app.js"></script>
 </body>
 </html> 

@@ -1,18 +1,155 @@
-// API Base URL
+// API endpoints
 const API_URL = 'http://localhost:3000/api';
 
-// DOM Elements
+// Create Record
 const createForm = document.getElementById('createForm');
-const updateForm = document.getElementById('updateForm');
-const deleteForm = document.getElementById('deleteForm');
-const getStudentsBtn = document.getElementById('getStudents');
-const studentsList = document.getElementById('studentsList');
+if (createForm) {
+    createForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const formData = {
+            name: document.getElementById('name').value,
+            age: parseInt(document.getElementById('age').value),
+            grade: document.getElementById('grade').value,
+            subjects: document.getElementById('subjects').value.split(',').map(s => s.trim())
+        };
 
-// Event Listeners
-createForm.addEventListener('submit', handleCreate);
-updateForm.addEventListener('submit', handleUpdate);
-deleteForm.addEventListener('submit', handleDelete);
-getStudentsBtn.addEventListener('click', fetchStudents);
+        try {
+            const response = await fetch(`${API_URL}/students`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                showMessage('Record created successfully!', 'success');
+                createForm.reset();
+            } else {
+                showMessage(data.message || 'Error creating record', 'error');
+            }
+        } catch (error) {
+            showMessage('Error connecting to server', 'error');
+        }
+    });
+}
+
+// Read Records
+const getAllRecordsBtn = document.getElementById('getAllRecords');
+if (getAllRecordsBtn) {
+    getAllRecordsBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch(`${API_URL}/students`);
+            const data = await response.json();
+            if (response.ok) {
+                displayRecords(data);
+            } else {
+                showMessage(data.message || 'Error fetching records', 'error');
+            }
+        } catch (error) {
+            showMessage('Error connecting to server', 'error');
+        }
+    });
+}
+
+// Update Record
+const updateForm = document.getElementById('updateForm');
+if (updateForm) {
+    updateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('id').value;
+        const formData = {};
+        
+        const name = document.getElementById('name').value;
+        const age = document.getElementById('age').value;
+        const grade = document.getElementById('grade').value;
+        const subjects = document.getElementById('subjects').value;
+
+        if (name) formData.name = name;
+        if (age) formData.age = parseInt(age);
+        if (grade) formData.grade = grade;
+        if (subjects) formData.subjects = subjects.split(',').map(s => s.trim());
+
+        try {
+            const response = await fetch(`${API_URL}/students/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                showMessage('Record updated successfully!', 'success');
+                updateForm.reset();
+            } else {
+                showMessage(data.message || 'Error updating record', 'error');
+            }
+        } catch (error) {
+            showMessage('Error connecting to server', 'error');
+        }
+    });
+}
+
+// Delete Record
+const deleteForm = document.getElementById('deleteForm');
+if (deleteForm) {
+    deleteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const id = document.getElementById('id').value;
+
+        try {
+            const response = await fetch(`${API_URL}/students/${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                showMessage('Record deleted successfully!', 'success');
+                deleteForm.reset();
+            } else {
+                showMessage(data.message || 'Error deleting record', 'error');
+            }
+        } catch (error) {
+            showMessage('Error connecting to server', 'error');
+        }
+    });
+}
+
+// Helper Functions
+function showMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    if (messageDiv) {
+        messageDiv.textContent = message;
+        messageDiv.className = type;
+        setTimeout(() => {
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+        }, 3000);
+    }
+}
+
+function displayRecords(records) {
+    const recordsList = document.getElementById('recordsList');
+    if (recordsList) {
+        if (records.length === 0) {
+            recordsList.innerHTML = '<p>No records found</p>';
+            return;
+        }
+
+        recordsList.innerHTML = records.map(record => `
+            <div class="record-item">
+                <h3>${record.name}</h3>
+                <p><strong>ID:</strong> ${record._id}</p>
+                <p><strong>Age:</strong> ${record.age}</p>
+                <p><strong>Grade:</strong> ${record.grade}</p>
+                <p><strong>Subjects:</strong> ${record.subjects.join(', ')}</p>
+            </div>
+        `).join('');
+    }
+}
 
 // Show Toast Notification
 function showToast(message, type = 'success') {
@@ -41,108 +178,11 @@ function showToast(message, type = 'success') {
     });
 }
 
-// Create Student
-async function handleCreate(e) {
-    e.preventDefault();
-    const studentData = {
-        name: document.getElementById('name').value,
-        age: parseInt(document.getElementById('age').value),
-        grade: document.getElementById('grade').value,
-        subjects: document.getElementById('subjects').value.split(',').map(subject => subject.trim())
-    };
-
-    try {
-        const response = await fetch(`${API_URL}/students`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(studentData)
-        });
-
-        if (!response.ok) throw new Error('Failed to create student');
-        
-        const student = await response.json();
-        showToast('Student created successfully!');
-        createForm.reset();
-        fetchStudents();
-        
-        // Animate the new student entry
-        const studentElement = document.querySelector(`[data-id="${student._id}"]`);
-        if (studentElement) {
-            studentElement.classList.add('highlight');
-            setTimeout(() => studentElement.classList.remove('highlight'), 2000);
-        }
-    } catch (error) {
-        showToast('Error creating student: ' + error.message, 'danger');
-    }
-}
-
-// Update Student
-async function handleUpdate(e) {
-    e.preventDefault();
-    const id = document.getElementById('updateId').value;
-    const updateData = {};
-
-    const name = document.getElementById('updateName').value;
-    const age = document.getElementById('updateAge').value;
-
-    if (name) updateData.name = name;
-    if (age) updateData.age = parseInt(age);
-
-    if (Object.keys(updateData).length === 0) {
-        showToast('Please provide at least one field to update', 'warning');
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/students/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updateData)
-        });
-
-        if (!response.ok) throw new Error('Failed to update student');
-        
-        showToast('Student updated successfully!');
-        updateForm.reset();
-        fetchStudents();
-    } catch (error) {
-        showToast('Error updating student: ' + error.message, 'danger');
-    }
-}
-
-// Delete Student
-async function handleDelete(e) {
-    e.preventDefault();
-    const id = document.getElementById('deleteId').value;
-
-    if (!confirm('Are you sure you want to delete this student?')) {
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/students/${id}`, {
-            method: 'DELETE'
-        });
-
-        if (!response.ok) throw new Error('Failed to delete student');
-        
-        showToast('Student deleted successfully!');
-        deleteForm.reset();
-        fetchStudents();
-    } catch (error) {
-        showToast('Error deleting student: ' + error.message, 'danger');
-    }
-}
-
 // Fetch All Students
 async function fetchStudents() {
     try {
-        getStudentsBtn.disabled = true;
-        getStudentsBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
+        getAllRecordsBtn.disabled = true;
+        getAllRecordsBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
         
         const response = await fetch(`${API_URL}/students`);
         if (!response.ok) throw new Error('Failed to fetch students');
@@ -150,48 +190,34 @@ async function fetchStudents() {
         const students = await response.json();
         displayStudents(students);
         
-        getStudentsBtn.innerHTML = '<i class="fas fa-list me-2"></i>Get All Students';
-        getStudentsBtn.disabled = false;
+        getAllRecordsBtn.innerHTML = '<i class="fas fa-list me-2"></i>Get All Students';
+        getAllRecordsBtn.disabled = false;
     } catch (error) {
         showToast('Error fetching students: ' + error.message, 'danger');
-        getStudentsBtn.innerHTML = '<i class="fas fa-list me-2"></i>Get All Students';
-        getStudentsBtn.disabled = false;
+        getAllRecordsBtn.innerHTML = '<i class="fas fa-list me-2"></i>Get All Students';
+        getAllRecordsBtn.disabled = false;
     }
 }
 
 // Display Students
 function displayStudents(students) {
-    studentsList.innerHTML = '';
-    
-    if (students.length === 0) {
-        studentsList.innerHTML = `
-            <div class="alert alert-info">
-                <i class="fas fa-info-circle me-2"></i>No students found in the database.
-            </div>
-        `;
-        return;
-    }
+    const recordsList = document.getElementById('recordsList');
+    if (recordsList) {
+        if (students.length === 0) {
+            recordsList.innerHTML = '<p>No records found</p>';
+            return;
+        }
 
-    students.forEach(student => {
-        const studentElement = document.createElement('div');
-        studentElement.className = 'student-item';
-        studentElement.setAttribute('data-id', student._id);
-        studentElement.innerHTML = `
-            <div class="d-flex justify-content-between align-items-start">
-                <div>
-                    <h5 class="mb-2">${student.name}</h5>
-                    <p class="mb-1"><strong>ID:</strong> ${student._id}</p>
-                    <p class="mb-1"><strong>Age:</strong> ${student.age}</p>
-                    <p class="mb-1"><strong>Grade:</strong> ${student.grade}</p>
-                    <p class="mb-0"><strong>Subjects:</strong> ${student.subjects.join(', ')}</p>
-                </div>
-                <div class="text-muted">
-                    <small>Created: ${new Date(student.createdAt || Date.now()).toLocaleDateString()}</small>
-                </div>
+        recordsList.innerHTML = students.map(student => `
+            <div class="record-item">
+                <h3>${student.name}</h3>
+                <p><strong>ID:</strong> ${student._id}</p>
+                <p><strong>Age:</strong> ${student.age}</p>
+                <p><strong>Grade:</strong> ${student.grade}</p>
+                <p><strong>Subjects:</strong> ${student.subjects.join(', ')}</p>
             </div>
-        `;
-        studentsList.appendChild(studentElement);
-    });
+        `).join('');
+    }
 }
 
 // Add highlight animation to CSS

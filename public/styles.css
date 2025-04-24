@@ -8,6 +8,12 @@
     --card-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -22,7 +28,16 @@ body {
     padding: 1rem;
 }
 
-header {
+h1 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    text-align: center;
+}
+
+/* Navigation */
+.nav-menu {
     background: white;
     padding: 1.5rem;
     border-radius: 15px;
@@ -31,148 +46,200 @@ header {
     animation: fadeIn 1s ease-in;
 }
 
-h1 {
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.nav-menu a {
     color: var(--primary-color);
-    font-weight: 700;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-}
-
-.lead {
-    color: var(--secondary-color);
-    font-size: 1.1rem;
-}
-
-.card {
-    border-radius: 15px;
-    box-shadow: var(--card-shadow);
-    margin-bottom: 1.5rem;
-    border: none;
-    transition: transform 0.3s ease;
-    background: white;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #6a11cb 100%);
-    color: white;
-    border-radius: 15px 15px 0 0 !important;
-    padding: 1rem;
-}
-
-.card-header h3 {
-    margin: 0;
-    font-size: 1.3rem;
-    font-weight: 600;
-}
-
-.card-body {
-    padding: 1.5rem;
-}
-
-h4 {
-    color: var(--primary-color);
-    margin-top: 1.2rem;
-    margin-bottom: 0.8rem;
-    font-weight: 600;
-    font-size: 1.1rem;
-}
-
-pre {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 10px;
-    overflow-x: auto;
-    border-left: 4px solid var(--primary-color);
-    font-size: 0.9rem;
-}
-
-code {
-    color: #e83e8c;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-.btn {
+    text-decoration: none;
     padding: 0.7rem 1.2rem;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.9rem;
-    width: 100%;
-    margin: 0.5rem 0;
+    background: var(--light-bg);
 }
 
-.btn-primary {
+.nav-menu a:hover {
     background: var(--primary-color);
-    border: none;
-}
-
-.btn-primary:hover {
-    background: #3a5bef;
+    color: white;
     transform: translateY(-2px);
 }
 
-.btn-info {
-    background: #17a2b8;
-    border: none;
+/* Content */
+.content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    animation: fadeIn 1s ease-in;
 }
 
-.btn-warning {
-    background: var(--warning-color);
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(74, 107, 255, 0.25);
+    outline: none;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
     border: none;
-    color: #212529;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    background: #3a5bef;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-danger {
     background: var(--danger-color);
-    border: none;
 }
 
-#studentsList {
-    max-height: 300px;
-    overflow-y: auto;
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Messages */
+#message {
+    margin-top: 1rem;
     padding: 1rem;
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease-in;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Records List */
+#recordsList {
+    margin-top: 1.5rem;
+}
+
+.record-item {
     background: var(--light-bg);
-    border-radius: 10px;
-}
-
-.student-item {
-    background: white;
-    padding: 1rem;
-    margin: 0.8rem 0;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
     border-radius: 10px;
     border-left: 4px solid var(--primary-color);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
-.student-item:hover {
+.record-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-control {
-    padding: 0.7rem;
-    border-radius: 8px;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
-    font-size: 0.9rem;
+.record-item h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
-.form-control:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(74, 107, 255, 0.25);
+.record-item p {
+    margin: 0.5rem 0;
+    color: var(--secondary-color);
 }
 
-.form-label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
+/* MongoDB Guide */
+.guide-section {
+    margin-bottom: 2rem;
+}
+
+.guide-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.guide-section h3 {
+    color: var(--secondary-color);
+    margin: 1.5rem 0 1rem;
+    font-size: 1.2rem;
+}
+
+.guide-section p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+}
+
+.guide-section ul, .guide-section ol {
+    margin-left: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.guide-section li {
+    margin-bottom: 0.5rem;
+}
+
+.guide-section pre {
+    background-color: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary-color);
+}
+
+.guide-section code {
+    font-family: 'Courier New', Courier, monospace;
+    color: #e83e8c;
+}
+
+.guide-section a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.guide-section a:hover {
+    text-decoration: underline;
 }
 
 /* Animations */
@@ -187,9 +254,46 @@ code {
     }
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-menu ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-menu li {
+        margin: 0.5rem 0;
+    }
+
+    .container {
+        padding: 0.8rem;
+    }
+
+    .content {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.8rem;
+    }
+
+    .form-group input {
+        padding: 0.7rem;
+    }
+
+    .record-item {
+        padding: 1rem;
+    }
+}
+
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -204,111 +308,4 @@ code {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #3a5bef;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .container {
-        padding: 0.8rem;
-    }
-    
-    header {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-    }
-    
-    .lead {
-        font-size: 1rem;
-    }
-    
-    .card-body {
-        padding: 1rem;
-    }
-    
-    .card-header h3 {
-        font-size: 1.2rem;
-    }
-    
-    h4 {
-        font-size: 1rem;
-    }
-    
-    pre {
-        padding: 0.8rem;
-        font-size: 0.8rem;
-    }
-    
-    .btn {
-        padding: 0.6rem 1rem;
-        font-size: 0.8rem;
-    }
-    
-    .form-control {
-        padding: 0.6rem;
-        font-size: 0.8rem;
-    }
-    
-    .form-label {
-        font-size: 0.8rem;
-    }
-    
-    .student-item {
-        padding: 0.8rem;
-    }
-    
-    .alert {
-        padding: 0.8rem;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .container {
-        padding: 0.5rem;
-    }
-    
-    header {
-        padding: 0.8rem;
-    }
-    
-    h1 {
-        font-size: 1.3rem;
-    }
-    
-    .card {
-        margin-bottom: 1rem;
-    }
-    
-    .row {
-        margin: 0;
-    }
-    
-    .col-md-6 {
-        padding: 0.5rem;
-    }
-}
-
-/* Toast Container for Mobile */
-.toast-container {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    z-index: 1000;
-}
-
-@media (max-width: 576px) {
-    .toast-container {
-        bottom: 0.5rem;
-        right: 0.5rem;
-        left: 0.5rem;
-    }
-    
-    .toast {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
 } 

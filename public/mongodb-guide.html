@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Guide - MongoDB CRUD</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MongoDB Guide</h1>
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="read.html">Read</a></li>
+                <li><a href="update.html">Update</a></li>
+                <li><a href="delete.html">Delete</a></li>
+                <li><a href="mongodb-guide.html">MongoDB Guide</a></li>
+            </ul>
+        </nav>
+        <div class="content">
+            <section class="guide-section">
+                <h2>Getting Started with MongoDB</h2>
+                <p>MongoDB is a popular NoSQL database that stores data in flexible, JSON-like documents. Here's a step-by-step guide to using MongoDB in your projects:</p>
+                
+                <h3>1. Installation</h3>
+                <p>To get started with MongoDB:</p>
+                <ol>
+                    <li>Download and install MongoDB Community Server from the <a href="https://www.mongodb.com/try/download/community" target="_blank">official website</a></li>
+                    <li>Install MongoDB Compass (GUI tool) for easier database management</li>
+                    <li>Add MongoDB to your system PATH</li>
+                </ol>
+
+                <h3>2. Setting Up Your Project</h3>
+                <p>To use MongoDB in your Node.js project:</p>
+                <ol>
+                    <li>Install the required dependencies:
+                        <pre><code>npm install mongoose express dotenv</code></pre>
+                    </li>
+                    <li>Create a `.env` file for your MongoDB connection string:
+                        <pre><code>MONGODB_URI=mongodb://localhost:27017/your_database_name</code></pre>
+                    </li>
+                </ol>
+
+                <h3>3. Connecting to MongoDB</h3>
+                <p>Here's how to connect to MongoDB in your Node.js application:</p>
+                <pre><code>const mongoose = require('mongoose');
+require('dotenv').config();
+
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));</code></pre>
+
+                <h3>4. Creating a Schema</h3>
+                <p>Define your data structure using Mongoose schemas:</p>
+                <pre><code>const studentSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    age: { type: Number, required: true },
+    grade: { type: String, required: true },
+    subjects: [String]
+});
+
+const Student = mongoose.model('Student', studentSchema);</code></pre>
+
+                <h3>5. CRUD Operations</h3>
+                
+                <h4>Create (POST)</h4>
+                <pre><code>// Create a new student
+const newStudent = new Student({
+    name: "John Doe",
+    age: 20,
+    grade: "A",
+    subjects: ["Math", "Science"]
+});
+
+await newStudent.save();</code></pre>
+
+                <h4>Read (GET)</h4>
+                <pre><code>// Get all students
+const students = await Student.find();
+
+// Get a specific student
+const student = await Student.findById(id);
+
+// Find with conditions
+const gradeAStudents = await Student.find({ grade: "A" });</code></pre>
+
+                <h4>Update (PUT)</h4>
+                <pre><code>// Update a student
+await Student.findByIdAndUpdate(id, {
+    name: "New Name",
+    age: 21
+});</code></pre>
+
+                <h4>Delete (DELETE)</h4>
+                <pre><code>// Delete a student
+await Student.findByIdAndDelete(id);</code></pre>
+
+                <h3>6. Best Practices</h3>
+                <ul>
+                    <li>Always use proper error handling</li>
+                    <li>Implement data validation</li>
+                    <li>Use indexes for frequently queried fields</li>
+                    <li>Implement proper security measures</li>
+                    <li>Regularly backup your database</li>
+                    <li>Monitor query performance</li>
+                </ul>
+
+                <h3>7. Advanced Features</h3>
+                <ul>
+                    <li>Aggregation Pipeline</li>
+                    <li>Text Search</li>
+                    <li>Geospatial Queries</li>
+                    <li>Transactions</li>
+                    <li>Change Streams</li>
+                </ul>
+
+                <h3>8. Security Considerations</h3>
+                <ul>
+                    <li>Use authentication and authorization</li>
+                    <li>Implement proper access control</li>
+                    <li>Encrypt sensitive data</li>
+                    <li>Regular security audits</li>
+                    <li>Keep MongoDB updated</li>
+                </ul>
+
+                <h3>9. Performance Optimization</h3>
+                <ul>
+                    <li>Use proper indexing</li>
+                    <li>Implement caching</li>
+                    <li>Optimize queries</li>
+                    <li>Use connection pooling</li>
+                    <li>Monitor and analyze performance</li>
+                </ul>
+
+                <h3>10. Resources</h3>
+                <ul>
+                    <li><a href="https://docs.mongodb.com/" target="_blank">MongoDB Documentation</a></li>
+                    <li><a href="https://university.mongodb.com/" target="_blank">MongoDB University</a></li>
+                    <li><a href="https://www.mongodb.com/community/forums/" target="_blank">MongoDB Community Forums</a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</body>
+</html> 
