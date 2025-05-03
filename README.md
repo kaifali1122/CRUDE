@@ -2,6 +2,8 @@
 
 This is an educational application that demonstrates MongoDB CRUD (Create, Read, Update, Delete) operations with practical examples. The application provides a user-friendly interface to learn and practice MongoDB operations.
 
+##Deployed link -[ mongodb-crud.netlify.app ]
+
 ## Prerequisites
 
 - Node.js (v14 or higher)
