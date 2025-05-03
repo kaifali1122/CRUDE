@@ -2,7 +2,7 @@
 
 This is an educational application that demonstrates MongoDB CRUD (Create, Read, Update, Delete) operations with practical examples. The application provides a user-friendly interface to learn and practice MongoDB operations.
 
-##Deployed link -[ mongodb-crud.netlify.app ]
+##Deployed link [MongoDB-CRUD]([https://pages.github.com/](https://mongodb-crud.netlify.app/))
 
 ## Prerequisites
 
